@@ -11,19 +11,22 @@ function InputBox({ setData }) {
   function handleSubmit(e) {
     e.preventDefault();
     if (itemText.trim().length > 0) {
-      //   axios
-      //     .post(`${process.env.REACT_APP_API_ENDPOINT}/items`, {
-      //       itemTitle: itemText,
-      //     })
-      //     .then((newItem) => {
-      setData((cData) => {
-        const clonedData = structuredClone(cData);
-        const newItem = { title: itemText, uid: cData.listItems.length + 1 };
-        clonedData.listItems.push(newItem);
-        return clonedData;
-      });
-      setItemText("");
-      // });
+      axios
+        .post(`${process.env.REACT_APP_API_ENDPOINT}/items`, {
+          item: itemText,
+        })
+        .then((newItem) => {
+          setData((cData) => {
+            const clonedData = structuredClone(cData);
+            const newItem = {
+              title: itemText,
+              did: cData.listItems.length + 1,
+            };
+            clonedData.listItems.push(newItem);
+            return clonedData;
+          });
+          setItemText("");
+        });
     }
   }
   return (

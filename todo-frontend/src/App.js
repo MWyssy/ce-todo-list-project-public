@@ -16,13 +16,15 @@ function App() {
   });
 
   useEffect(() => {
-    // const fetchData = async () => {
-    // const result = await axios(
-    //   `${process.env.REACT_APPS_API_ENDPOINT}/listItems`
-    // );
-    // setData(result.data);
-    // };
-    // fetchData();
+    const fetchData = async () => {
+      const result = await axios(`${process.env.REACT_APP_API_ENDPOINT}/items`);
+      setData((cData) => {
+        const clone = structuredClone(cData);
+        clone.listItems = result.data.items;
+        return clone;
+      });
+    };
+    fetchData();
   }, []);
 
   return (
