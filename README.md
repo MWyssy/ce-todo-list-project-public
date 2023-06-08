@@ -45,12 +45,11 @@ Before trying to deploy things, you should get the applications running locally 
 
 To do this you will need to:
 
-* Get the database container running
 * Docker build the images
 * Docker run the images
 * Fix any issues such as port mappings or API end points 
 
-As mentioned above, you will also need to build the Docker image for Postgres and get it running. 
+As mentioned above, as part of this you will also need to build the Docker image for Postgres and get it running. 
 
 We're not that mean to force you how to work out getting the database running so the list of commands below will help with that, but do explore the files and understand the commands before just copying them and applying. 
 
