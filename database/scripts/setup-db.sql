@@ -1,12 +1,3 @@
--- Drop the database if it exists
-DROP DATABASE IF EXISTS list_items;
-
--- Create the database
-CREATE DATABASE list_items;
-
--- Switch to the newly created database
-\c list_items;
-
 -- Create the table 'items'
 CREATE TABLE items (
     uid SERIAL PRIMARY KEY,
