@@ -35,6 +35,7 @@ function InputBox({ setData }) {
         <Input
           onChange={handleChange}
           placeholder="New Item..."
+          value={itemText}
           type="text"
         ></Input>
         <Button type="submit"> Add!</Button>
