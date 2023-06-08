@@ -1,9 +1,11 @@
 const { Pool } = require("pg");
 
-if (!process.env.PGDATABASE && !process.env.DATABASEURL) {
-  throw new Error("No PGDATABASE or DATABASEURL configured");
-}
+module.exports = new Pool({
+  host: "172.19.0.2", // replace with host ip
+  port: 5432, // replace with the appropriate port number
 
-// needs changing to account for DATABASEURL
-
-module.exports = new Pool();
+  // leave the below values the same
+  user: "user",
+  password: "password",
+  database: "list_items",
+});
