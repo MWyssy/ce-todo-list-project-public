@@ -14,7 +14,8 @@ jobs:
       - checkout
       - node/install:
           node-version: latest
-      - node/install-packages
+      - node/install-packages:
+          app-dir: ~/ce-todo-list-project/backend-api
       - run:
           name: Start
           command: nohup npm run start &
@@ -27,7 +28,8 @@ jobs:
       - checkout
       - node/install:
           node-version: latest
-      - node/install-packages
+      - node/install-packages:
+          app-dir: ~/ce-todo-list-project/todo-frontend
       - run:
           name: Start
           command: nohup nginx -g daemon off &
@@ -93,10 +95,8 @@ jobs:
 workflows:
   demo-app-pipeline:
     jobs:
-      - build-backend:
-          app-dir: ~/ce-todo-list-project/backend-api
-      - build-frontend:
-          app-dir: ~/ce-todo-list-project/todo-frontend
+      - build-backend
+      - build-frontend
       - build-database
       - build-image-and-push-backend:
           requires:
