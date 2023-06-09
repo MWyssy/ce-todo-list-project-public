@@ -36,7 +36,7 @@ jobs:
   build-database:
     working_directory: ~/ce-todo-list-project/database
     docker:
-      - image: cimg/postgres:15.3.0
+      - image: cimg/postgres:14.0
         environment:
             POSTGRES_USER: user
             POSTGRES_PASSWORD: password
