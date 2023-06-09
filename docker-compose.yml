@@ -3,6 +3,8 @@ services:
     build: ./backend-api
     ports:
       - "3000:3000"
+    environment:
+      - DATABASE_HOST=postgres-db
   postgres-db:
     build: ./database
     environment:

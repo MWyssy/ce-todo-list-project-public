@@ -61,6 +61,8 @@ You should then be able to open up the frontend by going to [localhost:8080](htt
 
 Once you are happy with having the applications run locally, next its time to push those docker images to container registry.
 
+**💡 HINT:** Make sure to have a read of the docker-compose file, it sets up some environment variables that will be required when you come to deploy the application. For example the backend API gets informed of the host that the database is living in. When deploying in Kubernetes, this will be different.
+
 You will need to:
 
 * Build a docker image for your frontend, backend and database
