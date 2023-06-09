@@ -57,7 +57,7 @@ jobs:
           path: ./backend-api
           build-path: "./backend-api"
           tag: ${CIRCLE_BUILD_NUM}
-          public-registry-alias: f7n0z5e3
+          public-registry-alias: f2m3w5c9
           public-registry: true
           create-repo: true
   build-image-and-push-frontend:
@@ -71,7 +71,7 @@ jobs:
           path: ./todo-frontend
           build-path: "./todo-frontend"
           tag: ${CIRCLE_BUILD_NUM}
-          public-registry-alias: f7n0z5e3
+          public-registry-alias: f2m3w5c9
           public-registry: true
           create-repo: true
   build-image-and-push-database:
@@ -85,7 +85,7 @@ jobs:
           path: ./database
           build-path: "./database"
           tag: ${CIRCLE_BUILD_NUM}
-          public-registry-alias: f7n0z5e3
+          public-registry-alias: f2m3w5c9
           public-registry: true
           create-repo: true
 workflows:
