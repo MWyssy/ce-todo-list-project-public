@@ -18,7 +18,7 @@ jobs:
       - run:
           name: Start
           command: nohup npm run start &
-          working_directory: ~/ce-todo-list-project/backend-api
+          working_directory: /backend-api
   build-frontend:    
     working_directory: /todo-frontend
     docker:
@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Start
           command: nohup nginx -g daemon off &
-          working_directory: ~/ce-todo-list-project/todo-frontend
+          working_directory: /todo-frontend
   build-database:
     working_directory: /database
     docker:
@@ -48,7 +48,7 @@ jobs:
       - run:
           name: Start
           command: nohup nginx -g daemon off &
-          working_directory: ~/ce-todo-list-project/database
+          working_directory: /database
   build-image-and-push-backend:
     working_directory: /backend-api
     docker:
