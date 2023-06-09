@@ -19,8 +19,7 @@ jobs:
           name: Start
           command: nohup npm run start &
           working_directory: ~/ce-todo-list-project/backend-api
-  build-frontend:
-    executor: node/default
+  build-frontend:    
     working_directory: ~/ce-todo-list-project/todo-frontend
     docker:
       - image: cimg/node:20.2.0
