@@ -43,25 +43,19 @@ Don't worry about Kubernetes or deployment just yet.
 
 Before trying to deploy things, you should get the applications running locally via Docker. This helps you to understand "what good looks like" before deploying things
 
-To do this you will need to:
+To do this we've shared a handy new tool called [Docker Compose](https://docs.docker.com/compose/)
 
-* Docker build the images
-* Docker run the images
-* Fix any issues such as port mappings or API end points 
+Docker compose allows you to define a file that will spin up multiple containers.
 
-As mentioned above, as part of this you will also need to build the Docker image for Postgres and get it running. 
+You can see the Docker compose definition in the [docker-compose.yml](./docker-compose.yml) file
 
-We're not that mean to force you how to work out getting the database running so the list of commands below will help with that, but do explore the files and understand the commands before just copying them and applying. 
-
-**💡 HINT:** Take note of the port that the command below exposes as well as the database username and password being used.
+To spin up all 3 applications, whilst in the root of this repository (where the docker-compose file is) run:
 
 ```
-cd database
-
-docker build -t postgres:1.0 .
-
-docker run -p 5432:5432 -e "POSTGRES_USER=user" -e "POSTGRES_PASSWORD=password"  -e "POSTGRES_DB=list_items"
+docker compose up --build
 ```
+
+You should then be able to open up the frontend by going to [localhost:8080](http://localhost:8080) but the API doesn't seem to be fetching items from the database. Seems like you might have to fix the end point - have a look through the code, debug on the browser and see if you can fix it it 💪🏽
 
 ### Container registry
 
@@ -69,6 +63,7 @@ Once you are happy with having the applications run locally, next its time to pu
 
 You will need to:
 
+* Build a docker image for your frontend, backend and database
 * Set up a public container registry for the frontend
 * Set up a public container registry for the backend
 * Set up a public container registry for your database
