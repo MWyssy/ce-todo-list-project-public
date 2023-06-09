@@ -55,7 +55,7 @@ jobs:
       - aws-ecr/build-and-push-image:
           repo: nc-backend
           path: ./
-          build-path: "./"
+          build-path: "./backend-api"
           tag: ${CIRCLE_BUILD_NUM}
           public-registry-alias: f7n0z5e3
           public-registry: true
@@ -69,7 +69,7 @@ jobs:
       - aws-ecr/build-and-push-image:
           repo: nc-frontend
           path: ./
-          build-path: "./"
+          build-path: "./tod0-frontend"
           tag: ${CIRCLE_BUILD_NUM}
           public-registry-alias: f7n0z5e3
           public-registry: true
@@ -83,7 +83,7 @@ jobs:
       - aws-ecr/build-and-push-image:
           repo: nc-database
           path: ./
-          build-path: "./"
+          build-path: "./database"
           tag: ${CIRCLE_BUILD_NUM}
           public-registry-alias: f7n0z5e3
           public-registry: true
@@ -95,14 +95,11 @@ workflows:
       - build-frontend
       - build-database
       - build-image-and-push-backend:
-          working_directory: ~/ce-todo-list-project/backend-api
           requires:
             - build-backend
       - build-image-and-push-frontend:
-          working_directory: ~/ce-todo-list-project/todo-frontend
           requires:
             - build-frontend
       - build-image-and-push-database:
-          working_directory: ~/ce-todo-list-project/database
           requires:
             - build-database
