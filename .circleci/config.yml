@@ -54,8 +54,8 @@ jobs:
       - setup_remote_docker
       - aws-ecr/build-and-push-image:
           repo: nc-backend
-          path: ./
-          build-path: "./backend-api"
+          path: ./backend-api
+          build-path: "./"
           tag: ${CIRCLE_BUILD_NUM}
           public-registry-alias: f7n0z5e3
           public-registry: true
@@ -68,8 +68,8 @@ jobs:
       - setup_remote_docker
       - aws-ecr/build-and-push-image:
           repo: nc-frontend
-          path: ./
-          build-path: "./tod0-frontend"
+          path: ./todo-frontend
+          build-path: "./"
           tag: ${CIRCLE_BUILD_NUM}
           public-registry-alias: f7n0z5e3
           public-registry: true
@@ -82,8 +82,8 @@ jobs:
       - setup_remote_docker
       - aws-ecr/build-and-push-image:
           repo: nc-database
-          path: ./
-          build-path: "./database"
+          path: ./database
+          build-path: "./"
           tag: ${CIRCLE_BUILD_NUM}
           public-registry-alias: f7n0z5e3
           public-registry: true
