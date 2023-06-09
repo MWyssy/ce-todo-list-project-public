@@ -43,9 +43,6 @@ jobs:
             POSTGRES_DB: list_items
     steps:
       - checkout
-      - run:
-          name: Start
-          command: sh database/scripts/init.sh
   build-image-and-push-backend:
     working_directory: ~/ce-todo-list-project/backend-api
     docker:
