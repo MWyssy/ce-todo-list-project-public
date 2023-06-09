@@ -4,49 +4,83 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@8.2.1
 
-build:
+jobs:
+  build:
     docker:
       # using custom image, see .circleci/images/primary/Dockerfile
       - image: circleci/cci-demo-docker-primary:0.0.2
       - image: postgres:9.4.1
         environment:
-          POSTGRES_USER: user
-          POSTGRES_DB: list_items
-    working_directory: ~/ce-todo-list-project
+          POSTGRES_USER: ubuntu
+          POSTGRES_DB: contacts
+    working_directory: /go/src/github.com/circleci/cci-demo-docker
 
     environment:
       TEST_RESULTS: /tmp/test-results
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/configuration-reference/#jobs
-jobs:
-  # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
-  build-and-test:
-    # These next lines define a Docker executor: https://circleci.com/docs/executor-types/
-    # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # Be sure to update the Docker image tag below to openjdk version of your application.
-    # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/openjdk
-    working_directory: ~/ce-todo-list-project
-    docker:
-      - image: cimg/openjdk:17.0.7
-    # Add steps to the job
-    # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
       - checkout
 
-      - setup_remote_docker:
-          version: 20.10.7
+      - run:
+          name: Waiting for Postgres to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z localhost 5432 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for Postgress && exit 1
 
+      - run: mkdir -p $TEST_RESULTS
+
+      - run:
+          name: Run unit tests
+          environment:
+            DATABASE_URL: "postgres://ubuntu@localhost:5432/contacts?sslmode=disable"
+            DB_MIGRATIONS: /go/src/github.com/circleci/cci-demo-docker/db/migrations
+          command: |
+            set -ou pipefail
+            trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
+            # Notice this `set -o pipefail`, this will cause script to fail if `make test` fails
+            # without this option script will return success regardless of testing result due to pipe after test command
+            make test | tee ${TEST_RESULTS}/go-test.out
+
+      - setup_remote_docker
+
+      # This should go into custom primary image, here's only for the sake of explanation
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+
+      # This should go into custom primary image, here's only for the sake of explanation
       - run:
           name: Install Docker Compose
           command: |
-            sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-            sudo chmod +x /usr/local/bin/docker-compose
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
 
       - run:
-          name: Start Docker Compose
+          name: Build service
+          command: make
+
+      - run:
+          name: Start container and verify it's working
           command: |
+            set -x
             docker-compose up -d
+
+            # docker-compose will start 2 containers, the one with service will be named `contacts`
+            # we start another container with curl in the same network as `contacts`, this way we have
+            # all exposed ports from `contacts` available on `localhost` in this new container
+            docker run --network container:contacts \
+              appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:8080/contacts/test
 
       - deploy:
           name: Build and push Docker image
@@ -55,3 +89,10 @@ jobs:
             docker build -t circleci/cci-demo-docker:$TAG .
             docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
             docker push circleci/cci-demo-docker:$TAG
+
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: raw-test-output
+
+      - store_test_results:
+          path: /tmp/test-results
