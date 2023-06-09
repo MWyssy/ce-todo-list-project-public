@@ -6,12 +6,12 @@ jobs:
   build-backend:
     executor: node/default
     working_directory: ~/ce-todo-list-project
-    app-dir: ~/ce-todo-list-project/backend-api
     docker:
       - image: cimg/node:20.2.0
         environment:
             DATABASE_HOST: postgres-db
     steps:
+      - app-dir: ~/ce-todo-list-project/backend-api
       - checkout
       - node/install:
           node-version: latest
@@ -22,10 +22,10 @@ jobs:
   build-frontend:
     executor: node/default
     working_directory: ~/ce-todo-list-project
-    app-dir: ~/ce-todo-list-project/todo-frontend
     docker:
       - image: cimg/node:20.2.0
     steps:
+      - app-dir: ~/ce-todo-list-project/todo-frontend
       - checkout
       - node/install:
           node-version: latest
