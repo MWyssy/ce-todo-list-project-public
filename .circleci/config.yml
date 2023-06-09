@@ -11,7 +11,6 @@ jobs:
         environment:
             DATABASE_HOST: postgres-db
     steps:
-      - app-dir: ~/ce-todo-list-project/backend-api
       - checkout
       - node/install:
           node-version: latest
@@ -25,7 +24,6 @@ jobs:
     docker:
       - image: cimg/node:20.2.0
     steps:
-      - app-dir: ~/ce-todo-list-project/todo-frontend
       - checkout
       - node/install:
           node-version: latest
@@ -95,8 +93,10 @@ jobs:
 workflows:
   demo-app-pipeline:
     jobs:
-      - build-backend
-      - build-frontend
+      - build-backend:
+          app-dir: ~/ce-todo-list-project/backend-api
+      - build-frontend:
+          app-dir: ~/ce-todo-list-project/todo-frontend
       - build-database
       - build-image-and-push-backend:
           requires:
