@@ -38,7 +38,7 @@ spec:
 
           env:
           - name: DATABASE_HOST 
-            value: todo-database.default.svc.cluster.local
+            value: database.default.svc.cluster.local
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: public.ecr.aws/f7n0z5e3/nc-database
+  repository: public.ecr.aws/f2m3w5c9/nc-database
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "44"
 
 imagePullSecrets: []
 nameOverride: ""
