@@ -8,6 +8,6 @@ spec:
     app: nc-frontend
   ports:
     - protocol: TCP
-      port: 3000
+      port: 8080
       targetPort: 80
   type: LoadBalancer

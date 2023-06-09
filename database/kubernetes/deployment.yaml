@@ -18,3 +18,10 @@ spec:
         image: public.ecr.aws/f7n0z5e3/nc-database:latest
         ports:
         - containerPort: 5432
+        env: 
+        - name: POSTGRES_USER 
+          value: user
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_DB
+          value: list_items
