@@ -1,0 +1,2 @@
+# The backend service does not need to be publicly exposed 
+# so something like ClusterIP or NodePort should be fine

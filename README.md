@@ -74,12 +74,41 @@ Once the registries are in place you'll need to push your 3 docker images (front
 
 **BONUS POINTS:** If you do this via a CircleCI pipeline. Challenge here is that this repo contains multiple applications so is considered to be a "mono-repo" which makes it harder to setup things in CircleCI so maybe come back to this one if you have time.
 
-### Deploy the database to your local Kubernetes cluster
+### Manual deployment to Kubernetes
+
+Next it's time to get things deployed on to your local cluster.
+
+Within each of application directories you will see a kubernetes directory that contains empty service and deployment YAML files. 
+
+Your task is to complete those files and get the applications manually deployed using your `kubectl` command line
+
+Once deployed, test your app and make sure it is all working
+
+### Manual removal
+
+Once you have verified that the applications are deploying manually ok then its time to remove them
+
+Use `kubectl delete -f YAML_FILE` to remove each of the various deployments and services.
+
+### Argo deployment
+
+Time to go all GitOps 😍
+
+Now install (if it isn't already) ArgoCD and setup your three applications using ArgoCD 
+
+### Helm
+
+As a final challenge, see if you can convert your applications to Helm charts.
+
+Make sure to delete them from ArgoCD before you attempt to re-create them in Argo
 
 
+## Submission process
 
+1. Fork this repository (if paired then its ok for one person to fork - just make sure to share the code with each other when finished)
 
+2. Commit and push regularly
 
-You will need to configure these apps on a local cluster using Helm and ArgoCD.
+3. Complete the SOLUTION.md
 
-You should only have 1 container for the database to ensure that all of front end containers receive the same data and look the same to all of your customers.
+4. Share the link to your repository

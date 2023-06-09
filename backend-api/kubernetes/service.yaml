@@ -1,0 +1,1 @@
+# You will need to use type: LoadBalancer so that the frontend can hit the API when loaded in the browser
