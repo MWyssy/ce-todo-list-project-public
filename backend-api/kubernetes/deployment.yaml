@@ -2,3 +2,25 @@
 # You can use internal DNS for pointing the backend API at the database
 # For example if you setup a service for the database called database-service then the internal 
 # host name is database-service.default.svc.cluster.local
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nc-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nc-backend
+  template:
+    metadata:
+      labels:
+        app: nc-backend
+    spec:
+      containers:
+      - name: nc-backend
+        image: public.ecr.aws/f7n0z5e3/nc-backend:latest
+        ports:
+        - containerPort: 3000
+        env: 
+        - name: DATABASE_HOST 
+          value: nc-database-service.default.svc.cluster.local

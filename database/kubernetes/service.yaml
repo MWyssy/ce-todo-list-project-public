@@ -1,2 +1,14 @@
 # The backend service does not need to be publicly exposed 
 # so something like ClusterIP or NodePort should be fine
+apiVersion: v1
+kind: Service
+metadata:
+  name: nc-database-service
+spec:
+  selector:
+    app: nc-database
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: NodePort

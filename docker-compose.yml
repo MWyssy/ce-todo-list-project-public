@@ -9,7 +9,7 @@ services:
     build: ./database
     environment:
       - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
+      - -e POSTGRES_PASSWORD=password
       - POSTGRES_DB=list_items
     ports: 
       - "5432:5432"

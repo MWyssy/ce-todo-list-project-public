@@ -1,1 +1,13 @@
 # You will need to use type: LoadBalancer so that the frontend can hit the API when loaded in the browser
+apiVersion: v1
+kind: Service
+metadata:
+  name: nc-backend-service
+spec:
+  selector:
+    app: nc-backend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: LoadBalancer

@@ -1,1 +1,20 @@
 # You will only want 1 replica for the DB so you only have one database running
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nc-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nc-database
+  template:
+    metadata:
+      labels:
+        app: nc-database
+    spec:
+      containers:
+      - name: nc-database
+        image: public.ecr.aws/f7n0z5e3/nc-database:latest
+        ports:
+        - containerPort: 5432

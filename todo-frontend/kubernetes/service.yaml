@@ -1,1 +1,13 @@
 # You might want to use type: LoadBalancer for this one
+apiVersion: v1
+kind: Service
+metadata:
+  name: nc-frontend-service
+spec:
+  selector:
+    app: nc-frontend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 80
+  type: LoadBalancer
