@@ -5,11 +5,11 @@ orbs:
 jobs:
   build-backend:
     executor: node/default
-    working_directory: ~/ce-todo-list-project/backend-api
+    working_directory: ~/backend-api
     docker:
       - image: cimg/node:20.2.0
         environment:
-            - DATABASE_HOST=postgres-db
+            DATABASE_HOST: postgres-db
     steps:
       - checkout
       - node/install:
@@ -18,10 +18,10 @@ jobs:
       - run:
           name: Start
           command: nohup npm run start &
-          working_directory: ~/ce-todo-list-project/backend-api
+          working_directory: ~/backend-api
   build-frontend:
     executor: node/default
-    working_directory: ~/ce-todo-list-project/todo-frontend
+    working_directory: ~/todo-frontend
     docker:
       - image: cimg/node:20.2.0
     steps:
@@ -32,9 +32,9 @@ jobs:
       - run:
           name: Start
           command: nohup nginx -g daemon off &
-          working_directory: ~/ce-todo-list-project/todo-frontend
+          working_directory: ~/todo-frontend
   build-database:
-    working_directory: ~/ce-todo-list-project/database
+    working_directory: ~/database
     docker:
       - image: postgres:9.4.1
         environment:
@@ -49,9 +49,9 @@ jobs:
       - run:
           name: Start
           command: nohup nginx -g daemon off &
-          working_directory: ~/ce-todo-list-project/database
+          working_directory: ~/database
   build-image-and-push-backend:
-    working_directory: ~/ce-todo-list-project/backend-api
+    working_directory: ~/backend-api
     docker:
       - image: cimg/aws:2023.05
     steps:
@@ -59,63 +59,3 @@ jobs:
       - aws-ecr/build-and-push-image:
           repo: nc-backend
           path: ./
-          build-path: "./"
-          tag: ${CIRCLE_BUILD_NUM}
-          public-registry-alias: f7n0z5e3
-          public-registry: true
-          create-repo: true
-  build-image-and-push-frontend:
-    working_directory: ~/ce-todo-list-project/todo-frontend
-    docker:
-      - image: cimg/aws:2023.05
-    steps:
-      - setup_remote_docker
-      - aws-ecr/build-and-push-image:
-          repo: nc-frontend
-          path: ./
-          build-path: "./"
-          tag: ${CIRCLE_BUILD_NUM}
-          public-registry-alias: f7n0z5e3
-          public-registry: true
-          create-repo: true
-  build-image-and-push-database:
-    working_directory: ~/ce-todo-list-project/database
-    docker:
-      - image: cimg/aws:2023.05
-    steps:
-      - setup_remote_docker
-      - aws-ecr/build-and-push-image:
-          repo: nc-database
-          path: ./
-          build-path: "./"
-          tag: ${CIRCLE_BUILD_NUM}
-          public-registry-alias: f7n0z5e3
-          public-registry: true
-          create-repo: true
-workflows:
-  demo-app-pipeline:
-    jobs:
-      - build-backend
-      - build-frontend
-      - build-database
-      - build-image-and-push-backend:
-          requires:
-            - build-backend
-      - build-image-and-push-frontend:
-          requires:
-            - build-frontend
-      - build-image-and-push-database:
-          requires:
-            - build-database
-
-
-
-
-
-
-
-
-
-
-
-
