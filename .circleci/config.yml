@@ -45,7 +45,7 @@ jobs:
       - checkout
       - run:
           name: Start
-          command: ls
+          command: cd database && cd scripts && sh init.sh
   build-image-and-push-backend:
     working_directory: ~/ce-todo-list-project/backend-api
     docker:
