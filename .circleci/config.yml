@@ -45,7 +45,7 @@ jobs:
       - checkout
       - run:
           name: Start
-          command: cd database && cd scripts && sh init.sh
+          command: cd database/scripts && sh init.sh
   build-image-and-push-backend:
     working_directory: ~/ce-todo-list-project/backend-api
     docker:
@@ -95,11 +95,14 @@ workflows:
       - build-frontend
       - build-database
       - build-image-and-push-backend:
+          app-dir: ~/ce-todo-list-project/backend-api
           requires:
             - build-backend
       - build-image-and-push-frontend:
+          app-dir: ~/ce-todo-list-project/todo-frontend
           requires:
             - build-frontend
       - build-image-and-push-database:
+          app-dir: ~/ce-todo-list-project/database
           requires:
             - build-database
