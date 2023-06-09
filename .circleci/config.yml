@@ -34,9 +34,9 @@ jobs:
           name: Start
           command: nohup nginx -g daemon off &
   build-database:
-    working_directory: ~/ce-todo-list-project
+    working_directory: ~/ce-todo-list-project/database
     docker:
-      - image: postgres:9.4.1
+      - image: cimg/postgres:15.3.0
         environment:
             POSTGRES_USER: user
             POSTGRES_PASSWORD: password
@@ -45,7 +45,7 @@ jobs:
       - checkout
       - run:
           name: Start
-          command: cd database/scripts && sh init.sh
+          command: sh scripts/init.sh
   build-image-and-push-backend:
     working_directory: ~/ce-todo-list-project/backend-api
     docker:
