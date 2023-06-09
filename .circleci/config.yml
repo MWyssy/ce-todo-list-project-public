@@ -5,7 +5,7 @@ orbs:
 jobs:
   build-backend:
     executor: node/default
-    working_directory: ~/ce-todo-list-project/backend-api
+    working_directory: /backend-api
     docker:
       - image: cimg/node:20.2.0
         environment:
@@ -20,7 +20,7 @@ jobs:
           command: nohup npm run start &
           working_directory: ~/ce-todo-list-project/backend-api
   build-frontend:    
-    working_directory: ~/ce-todo-list-project/todo-frontend
+    working_directory: /todo-frontend
     docker:
       - image: cimg/node:20.2.0
     steps:
@@ -33,7 +33,7 @@ jobs:
           command: nohup nginx -g daemon off &
           working_directory: ~/ce-todo-list-project/todo-frontend
   build-database:
-    working_directory: ~/ce-todo-list-project/database
+    working_directory: /database
     docker:
       - image: postgres:9.4.1
         environment:
@@ -50,7 +50,7 @@ jobs:
           command: nohup nginx -g daemon off &
           working_directory: ~/ce-todo-list-project/database
   build-image-and-push-backend:
-    working_directory: ~/ce-todo-list-project/backend-api
+    working_directory: /backend-api
     docker:
       - image: cimg/aws:2023.05
     steps:
@@ -64,7 +64,7 @@ jobs:
           public-registry: true
           create-repo: true
   build-image-and-push-frontend:
-    working_directory: ~/ce-todo-list-project/todo-frontend
+    working_directory: /todo-frontend
     docker:
       - image: cimg/aws:2023.05
     steps:
@@ -78,7 +78,7 @@ jobs:
           public-registry: true
           create-repo: true
   build-image-and-push-database:
-    working_directory: ~/ce-todo-list-project/database
+    working_directory: /database
     docker:
       - image: cimg/aws:2023.05
     steps:
