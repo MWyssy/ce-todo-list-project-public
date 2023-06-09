@@ -95,14 +95,14 @@ workflows:
       - build-frontend
       - build-database
       - build-image-and-push-backend:
-          app-dir: ~/ce-todo-list-project/backend-api
+          working_directory: ~/ce-todo-list-project/backend-api
           requires:
             - build-backend
       - build-image-and-push-frontend:
-          app-dir: ~/ce-todo-list-project/todo-frontend
+          working_directory: ~/ce-todo-list-project/todo-frontend
           requires:
             - build-frontend
       - build-image-and-push-database:
-          app-dir: ~/ce-todo-list-project/database
+          working_directory: ~/ce-todo-list-project/database
           requires:
             - build-database
